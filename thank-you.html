@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>Cảm ơn bạn đặt hàng | HearPaw</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body.thank-you-page { min-height:100vh; margin:0; display:grid; place-items:center; padding:28px 18px; background:#f7f5ef; color:#263126; }
+    .thanks-card { width:min(100%,620px); box-sizing:border-box; padding:clamp(28px,6vw,58px); text-align:center; background:#fff; border:1px solid rgba(44,62,44,.12); border-radius:28px; box-shadow:0 24px 70px rgba(36,48,34,.09); }
+    .thanks-mark { width:76px;height:76px;margin:0 auto 24px;display:grid;place-items:center;border-radius:50%;background:#e8eee2;color:#526b43;font-size:38px; }
+    .thanks-card .eyebrow { letter-spacing:.16em; }
+    .thanks-card h1 { margin:12px 0 16px;font-size:clamp(34px,7vw,52px);line-height:1.08; }
+    .thanks-card h1 em { color:#72845d;font-family:Georgia,serif;font-weight:400; }
+    .thanks-copy { max-width:440px;margin:0 auto 26px;line-height:1.75;color:#687064; }
+    .order-summary { margin:24px 0;padding:18px 20px;text-align:left;background:#f7f8f4;border-radius:16px; }
+    .order-line { display:flex;justify-content:space-between;gap:16px;padding:7px 0;color:#5f675b;font-size:14px; }
+    .order-line strong { color:#263126;text-align:right; }
+    .thanks-actions { display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px; }
+    .thanks-actions .btn { text-decoration:none; }
+    .thanks-note { display:block;margin-top:22px;color:#858b80;font-size:12px;line-height:1.6; }
+    @media(max-width:480px){.order-line{align-items:flex-start;flex-direction:column;gap:3px}.order-line strong{text-align:left}}
+  </style>
+</head>
+<body class="thank-you-page">
+  <main class="thanks-card">
+    <div class="thanks-mark" aria-hidden="true">✓</div>
+    <p class="eyebrow">THANK YOU · HEARPAW</p>
+    <h1>Cảm ơn bạn đã<br><em>đặt hàng!</em></h1>
+    <p class="thanks-copy">HearPaw rất vui khi được đồng hành cùng bạn và bé. Thông tin đơn hàng demo của bạn đã được ghi nhận trên phiên trình duyệt này.</p>
+    <section class="order-summary" aria-label="Thông tin đơn hàng">
+      <div class="order-line"><span>Mã đơn hàng</span><strong id="orderCode">Đang tải...</strong></div>
+      <div class="order-line"><span>Phương thức</span><strong id="paymentMethod">Đang tải...</strong></div>
+      <div class="order-line"><span>Vận chuyển</span><strong id="orderShipping">Đang tải...</strong></div>
+      <div class="order-line"><span>Tổng cộng</span><strong id="orderTotal">Đang tải...</strong></div>
+    </section>
+    <div class="thanks-actions">
+      <a class="btn btn-dark" href="index.html#product">Tiếp tục đặt hàng</a>
+      <a class="btn btn-outline" href="index.html">Về trang chủ</a><button class="btn btn-outline" id="reviewToggle" type="button">Đánh giá sản phẩm</button>
+    </div>
+    <form id="reviewForm" class="review-form" hidden>
+      <h2>Đánh giá sản phẩm</h2>
+      <label for="reviewProduct">Sản phẩm bạn muốn đánh giá</label>
+      <input id="reviewProduct" required placeholder="Tên sản phẩm">
+      <label for="reviewRating">Mức độ hài lòng</label>
+      <select id="reviewRating" required><option value="">Chọn đánh giá</option><option value="5">★★★★★ - Rất hài lòng</option><option value="4">★★★★ - Hài lòng</option><option value="3">★★★ - Bình thường</option><option value="2">★★ - Chưa hài lòng</option><option value="1">★ - Không hài lòng</option></select>
+      <label for="reviewComment">Cảm nhận của bạn</label><textarea id="reviewComment" rows="4" required placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
+      <button class="btn btn-dark" type="submit">Gửi đánh giá</button><p id="reviewStatus" aria-live="polite"></p>
+      <small>Đánh giá demo được lưu trong trình duyệt này, chưa gửi về máy chủ.</small>
+    </form>
+    <small class="thanks-note">Đây là luồng đặt hàng demo; website chưa kết nối cổng thanh toán thật. Với QR ngân hàng, giao dịch chưa được tự động xác minh.</small>
+  </main>
+  <script>
+    (function () {
+      const money = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(Number(value || 0));
+      let order = null;
+      try { order = JSON.parse(sessionStorage.getItem('hearpawLastDemoOrder') || 'null'); } catch (_) {}
+      document.getElementById('orderCode').textContent = order && order.code ? order.code : 'Đơn hàng demo';
+      document.getElementById('paymentMethod').textContent = order && order.paymentMethod ? order.paymentMethod : 'Demo';
+      document.getElementById('orderShipping').textContent = order && order.shipping ? order.shipping : 'Theo chính sách vận chuyển';
+      document.getElementById('orderTotal').textContent = money(order && order.total);
+      document.getElementById('reviewToggle')?.addEventListener('click', () => { const f=document.getElementById('reviewForm'); f.hidden=!f.hidden; });
+      document.getElementById('reviewForm')?.addEventListener('submit', e => { e.preventDefault(); const reviews=JSON.parse(localStorage.getItem('hearpawDemoReviews')||'[]'); reviews.push({product:document.getElementById('reviewProduct').value.trim(),rating:document.getElementById('reviewRating').value,comment:document.getElementById('reviewComment').value.trim(),date:new Date().toISOString(),orderCode:order?.code||''}); localStorage.setItem('hearpawDemoReviews',JSON.stringify(reviews)); document.getElementById('reviewStatus').textContent='Cảm ơn bạn! Đánh giá đã được lưu trong trình duyệt demo.'; e.target.reset(); });
+    })();
+  </script>
+</body>
+</html>

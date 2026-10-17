@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập | HearPaw</title>
+  <meta name="description" content="Đăng nhập hoặc tạo tài khoản HearPaw để đồng hành cùng thú cưng.">
+
+  <style>
+    :root {
+      --moss: #466747;
+      --deep: #35472E;
+      --cream: #FFF8EC;
+      --white: #FFFEFA;
+      --ink: #2F3D2D;
+      --muted: #657461;
+      --line: #E2EBDD;
+      --pink: #F3C3CD;
+      --mint: #F4FAF3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .navbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--deep);
+    }
+
+    .brand span { color: var(--moss); }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--moss);
+      font-weight: 700;
+    }
+
+    .layout {
+      width: min(1050px, 92%);
+      min-height: calc(100vh - 76px);
+      margin: auto;
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .intro { padding: 12px; }
+
+    .eyebrow {
+      display: inline-block;
+      background: #E8F0E4;
+      color: var(--moss);
+      border-radius: 30px;
+      padding: 9px 15px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .intro h1 {
+      font-size: clamp(34px, 4vw, 51px);
+      line-height: 1.15;
+      letter-spacing: -1.7px;
+      margin: 22px 0 16px;
+    }
+
+    .intro h1 span { color: var(--moss); }
+
+    .intro p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 430px;
+    }
+
+    .benefits {
+      margin-top: 28px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .benefit {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .benefit-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #E8F0E4;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .auth-card {
+      background: var(--white);
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      box-shadow: 0 16px 45px rgba(53, 71, 46, 0.08);
+    }
+
+    .auth-card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.7px;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      padding: 5px;
+      border-radius: 13px;
+      background: var(--mint);
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: var(--moss);
+      color: white;
+      box-shadow: 0 3px 9px #35472e20;
+    }
+
+    .field { margin-bottom: 17px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #DCE5D8;
+      border-radius: 11px;
+      outline: none;
+      background: #FFFEFA;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: var(--moss);
+      box-shadow: 0 0 0 3px #46674718;
+    }
+
+    .password-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .password-row button {
+      border: 0;
+      background: transparent;
+      color: var(--moss);
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      background: var(--moss);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+      margin-top: 5px;
+    }
+
+    .primary-btn:hover {
+      background: var(--deep);
+      transform: translateY(-1px);
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 10px;
+      background: #E8F0E4;
+      color: var(--deep);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .message.show { display: block; }
+
+    .guest {
+      margin-top: 23px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .guest a {
+      color: var(--moss);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .terms {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+      color: #7C8878;
+    }
+
+    .terms a { text-decoration: underline; }
+
+    @media (max-width: 760px) {
+      .navbar { height: 66px; padding: 0 5%; }
+      .brand { font-size: 22px; }
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 28px 0;
+        width: min(470px, 92%);
+      }
+      .intro { padding: 0 5px; }
+      .intro h1 { font-size: 35px; margin-top: 16px; }
+      .intro p { font-size: 14px; }
+      .benefits { display: none; }
+      .auth-card { padding: 25px 21px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="brand" href="index.html">Hear<span>Paw</span> 🐾</a>
+    <a class="back-link" href="index.html">← Tiếp tục khám phá</a>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <span class="eyebrow">A LITTLE MORE PEACE OF MIND</span>
+      <h1>Yêu thương bé,<br><span>an tâm mỗi ngày.</span></h1>
+      <p>
+        HearPaw đồng hành cùng bạn trên hành trình chăm sóc thú cưng.
+        Khám phá sản phẩm và tìm hiểu các tính năng trước khi tạo tài khoản.
+      </p>
+
+      <div class="benefits">
+        <div class="benefit">
+          <span class="benefit-icon">🐾</span>
+          <span>Tìm hiểu vòng cổ GPS dành cho thú cưng</span>
+        </div>
+        <div class="benefit">
+          <span class="benefit-icon">💚</span>
+          <span>Khám phá trải nghiệm chăm sóc cùng HearPaw</span>
+        </div>
+        <div class="benefit">
+          <span class="benefit-icon">✨</span>
+          <span>Đăng ký khi bạn sẵn sàng</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <h2 id="formTitle">Chào mừng trở lại!</h2>
+      <p class="subtitle" id="formSubtitle">
+        Đăng nhập để tiếp tục hành trình cùng HearPaw.
+      </p>
+
+      <div class="tabs">
+        <button type="button" class="tab active" id="loginTab">Đăng nhập</button>
+        <button type="button" class="tab" id="registerTab">Đăng ký</button>
+      </div>
+
+      <form id="authForm">
+        <div class="field" id="nameField" hidden>
+          <label for="fullName">Tên của bạn</label>
+          <input id="fullName" name="fullName" type="text"
+                 placeholder="Nhập tên của bạn" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email"
+                 placeholder="you@example.com" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <div class="password-row">
+            <label for="password">Mật khẩu</label>
+            <button type="button" id="togglePassword">Hiện mật khẩu</button>
+          </div>
+          <input id="password" name="password" type="password"
+                 placeholder="Nhập mật khẩu" required
+                 minlength="6" autocomplete="current-password">
+        </div>
+
+        <div class="field" id="confirmField" hidden>
+          <label for="confirmPassword">Xác nhận mật khẩu</label>
+          <input id="confirmPassword" name="confirmPassword" type="password"
+                 placeholder="Nhập lại mật khẩu" minlength="6"
+                 autocomplete="new-password">
+        </div>
+
+        <button class="primary-btn" type="submit" id="submitButton">
+          Đăng nhập
+        </button>
+
+        <div class="message" id="formMessage" role="status" aria-live="polite"></div>
+      </form>
+
+<div style="margin-top:18px;padding:13px;background:#F4FAF3;border-radius:12px;font-size:13px;line-height:1.8;color:#35472E">
+  <strong>🔑 Tài khoản demo</strong><br>
+  Email: demo@hearpaw.vn<br>
+  Mật khẩu: 123456
+</div>
+
+      <div class="guest">
+        Chỉ muốn xem website?
+        <a href="index.html">Tiếp tục với tư cách khách</a>
+      </div>
+
+      <p class="terms">
+        Đây là giao diện demo. Tài khoản và mật khẩu chưa được lưu hoặc
+        xác thực trên máy chủ.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const loginTab = document.getElementById("loginTab");
+    const registerTab = document.getElementById("registerTab");
+    const authForm = document.getElementById("authForm");
+    const nameField = document.getElementById("nameField");
+    const confirmField = document.getElementById("confirmField");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const password = document.getElementById("password");
+    const formTitle = document.getElementById("formTitle");
+    const formSubtitle = document.getElementById("formSubtitle");
+    const submitButton = document.getElementById("submitButton");
+    const formMessage = document.getElementById("formMessage");
+
+    let mode = "login";
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      const isRegister = mode === "register";
+
+      loginTab.classList.toggle("active", !isRegister);
+      registerTab.classList.toggle("active", isRegister);
+
+      nameField.hidden = !isRegister;
+      confirmField.hidden = !isRegister;
+      document.getElementById("fullName").required = isRegister;
+      confirmPassword.required = isRegister;
+
+      formTitle.textContent = isRegister ? "Tạo tài khoản mới" : "Chào mừng trở lại!";
+      formSubtitle.textContent = isRegister
+        ? "Tạo tài khoản để bắt đầu hành trình cùng HearPaw."
+        : "Đăng nhập để tiếp tục hành trình cùng HearPaw.";
+      submitButton.textContent = isRegister ? "Tạo tài khoản" : "Đăng nhập";
+      password.autocomplete = isRegister ? "new-password" : "current-password";
+
+      formMessage.classList.remove("show");
+      formMessage.textContent = "";
+    }
+
+    loginTab.addEventListener("click", () => setMode("login"));
+    registerTab.addEventListener("click", () => setMode("register"));
+
+    document.getElementById("togglePassword").addEventListener("click", function () {
+      const isHidden = password.type === "password";
+      password.type = isHidden ? "text" : "password";
+      this.textContent = isHidden ? "Ẩn mật khẩu" : "Hiện mật khẩu";
+    });
+
+   
+authForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const passwordValue = password.value;
+
+  formMessage.classList.add("show");
+
+  if (mode === "login") {
+    if (
+      email === "demo@hearpaw.vn" &&
+      passwordValue === "123456"
+    ) {
+      formMessage.textContent =
+        "Đăng nhập thành công! Đang quay lại website...";
+      formMessage.style.background = "#E8F0E4";
+      formMessage.style.color = "#35472E";
+
+      sessionStorage.setItem("hearpawDemoLoggedIn", "true");
+      sessionStorage.setItem("hearpawDemoEmail", email);
+      sessionStorage.setItem("hearpawDemoName", email === "demo@hearpaw.vn" ? "Demo" : (document.getElementById("fullName")?.value.trim() || email.split("@")[0]));
+
+      const returnUrl =
+        sessionStorage.getItem("hearpawReturnUrl") || "index.html";
+
+      sessionStorage.removeItem("hearpawReturnUrl");
+
+      setTimeout(function () {
+        window.location.href = returnUrl;
+      }, 800);
+    } else {
+      formMessage.textContent =
+        "Email hoặc mật khẩu chưa đúng. Hãy thử tài khoản demo bên dưới.";
+      formMessage.style.background = "#FCEBEC";
+      formMessage.style.color = "#9B3434";
+    }
+
+    return;
+  }
+
+  if (passwordValue !== confirmPassword.value) {
+    formMessage.textContent =
+      "Mật khẩu xác nhận chưa khớp. Bạn kiểm tra lại nhé.";
+    formMessage.style.background = "#FCEBEC";
+    formMessage.style.color = "#9B3434";
+    return;
+  }
+
+  formMessage.textContent = "Đăng ký thành công! Đang quay lại website...";
+  formMessage.style.background = "#E8F0E4";
+  formMessage.style.color = "#35472E";
+  // Demo registration completes the same return flow as login, preserving checkout context.
+  sessionStorage.setItem("hearpawDemoLoggedIn", "true");
+  sessionStorage.setItem("hearpawDemoEmail", email);
+  sessionStorage.setItem("hearpawDemoName", document.getElementById("fullName")?.value.trim() || email.split("@")[0]);
+  const returnUrl = sessionStorage.getItem("hearpawReturnUrl") || "index.html";
+  sessionStorage.removeItem("hearpawReturnUrl");
+  setTimeout(function () { window.location.href = returnUrl; }, 800);
+});
+  const requestedMode = new URLSearchParams(window.location.search).get('mode');
+    if (requestedMode === 'register') setMode('register');
+  </script>
+</body>
+</html>
